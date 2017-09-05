@@ -6,10 +6,6 @@ services:
     environment:
       sa_password: "DockerCon!!!"
       ACCEPT_EULA: "Y"
-    healthcheck:
-      test: [ "CMD", "sqlcmd", "-U", "sa", "-P", "DockerCon!!!", "-Q", "select 1" ]
-      interval: 2s
-      retries: 10
 
   app:
     image: dockersamples/dotnet-album-viewer
@@ -20,8 +16,7 @@ services:
       - "Data:useSqLite=false"
       - "Data:SqlServerConnectionString=Server=db;Database=AlbumViewer;User Id=sa;Password=DockerCon!!!;MultipleActiveResultSets=true;App=AlbumViewer"
     depends_on:
-      db:
-        condition: service_healthy
+      - db
     ports:
       - "80:80"
 
